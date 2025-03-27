@@ -1,0 +1,36 @@
+name: Run Appium Tests on BrowserStack
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    env:
+      BS_USER_NAME: ${{ secrets.BS_USER_NAME }}
+      BS_ACCESS_KEY: ${{ secrets.BS_ACCESS_KEY }}
+      BS_APP_ID: ${{ secrets.BS_APP_ID }}
+    name: Run Appium Tests
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Tests with Pytest and Appium
+
+        run: |
+          pytest --alluredir=allure-results
+
+      - name: Upload Allure Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results

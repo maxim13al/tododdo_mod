@@ -1,0 +1,13 @@
+*~
+.env
+.venv
+allure-results
+logs
+resources
+screenshots
+
+.idea/
+.cache
+.ruff_cache
+__pycache__/
+.pytest_cache/

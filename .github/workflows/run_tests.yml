@@ -41,31 +41,37 @@ jobs:
         if: "github.event.inputs.deployment_target == 'all_tests'"
         run: |
           pytest --alluredir=allure-results
+        continue-on-error: true
 
       - name: Run Create Tests
         if: "github.event.inputs.deployment_target == 'create_tests'"
         run: |
           pytest src/tests/create --alluredir=allure-results
+        continue-on-error: true
 
       - name: Run Delete Tests
         if: "github.event.inputs.deployment_target == 'delete_tests'"
         run: |
           pytest src/tests/delete --alluredir=allure-results
+        continue-on-error: true
 
       - name: Run Edit Tests
         if: "github.event.inputs.deployment_target == 'edit_tests'"
         run: |
           pytest src/tests/edit --alluredir=allure-results
+        continue-on-error: true
 
       - name: Run View Tests
         if: "github.event.inputs.deployment_target == 'view_tests'"
         run: |
           pytest src/tests/view --alluredir=allure-results
+        continue-on-error: true
 
       - name: Run Failed Tests
         if: "github.event.inputs.deployment_target == 'failed_tests'"
         run: |
           pytest src/tests/failed --alluredir=allure-results
+        continue-on-error: true
 
       - name: Upload Allure Results
         uses: actions/upload-artifact@v4

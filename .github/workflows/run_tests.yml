@@ -24,10 +24,35 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Tests with Pytest and Appium
-
+      - name: Run All Tests
+        if: "github.event.inputs.deployment_target == 'all_tests'"
         run: |
           pytest --alluredir=allure-results
+
+      - name: Run Create Tests
+        if: "github.event.inputs.deployment_target == 'create_tests'"
+        run: |
+          pytest tests/create --alluredir=allure-results
+
+      - name: Run Delete Tests
+        if: "github.event.inputs.deployment_target == 'delete_tests'"
+        run: |
+          pytest tests/delete --alluredir=allure-results
+
+      - name: Run Edit Tests
+        if: "github.event.inputs.deployment_target == 'edit_tests'"
+        run: |
+          pytest tests/edit --alluredir=allure-results
+
+      - name: Run View Tests
+        if: "github.event.inputs.deployment_target == 'view_tests'"
+        run: |
+          pytest tests/view --alluredir=allure-results
+
+      - name: Run Failed Tests
+        if: "github.event.inputs.deployment_target == 'failed_tests'"
+        run: |
+          pytest tests/failed --alluredir=allure-results
 
       - name: Upload Allure Results
         uses: actions/upload-artifact@v4

@@ -2,6 +2,19 @@ name: Run Appium Tests on BrowserStack
 
 on:
   workflow_dispatch:
+    inputs:
+      deployment_target:
+        description: select tests to run
+        required: true
+        default:
+        type: choice
+        options:
+          - all_tests
+          - create_tests
+          - delete_tests
+          - edit_tests
+          - view_tests
+          - failed_tests
 
 jobs:
   run-tests:
@@ -32,27 +45,27 @@ jobs:
       - name: Run Create Tests
         if: "github.event.inputs.deployment_target == 'create_tests'"
         run: |
-          pytest tests/create --alluredir=allure-results
+          pytest src/tests/create --alluredir=allure-results
 
       - name: Run Delete Tests
         if: "github.event.inputs.deployment_target == 'delete_tests'"
         run: |
-          pytest tests/delete --alluredir=allure-results
+          pytest src/tests/delete --alluredir=allure-results
 
       - name: Run Edit Tests
         if: "github.event.inputs.deployment_target == 'edit_tests'"
         run: |
-          pytest tests/edit --alluredir=allure-results
+          pytest src/tests/edit --alluredir=allure-results
 
       - name: Run View Tests
         if: "github.event.inputs.deployment_target == 'view_tests'"
         run: |
-          pytest tests/view --alluredir=allure-results
+          pytest src/tests/view --alluredir=allure-results
 
       - name: Run Failed Tests
         if: "github.event.inputs.deployment_target == 'failed_tests'"
         run: |
-          pytest tests/failed --alluredir=allure-results
+          pytest src/tests/failed --alluredir=allure-results
 
       - name: Upload Allure Results
         uses: actions/upload-artifact@v4
